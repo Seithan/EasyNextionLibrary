@@ -1,0 +1,679 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>README</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__html"><h1 id="easy-nextion-library">Easy Nextion Library</h1>
+<h2 id="description">Description</h2>
+<p>A simple library that uses only four functions. You can easily benefit from Nextion’s wide range of features and advantages in just a few easy steps.<br>
+The library uses a custom protocol that can prove to be a <strong>powerful tool</strong> for advanced users as it can be <strong>easily modified</strong> to meet one’s needs.<br>
+This is an attempt to give a very simple method to use Nextion monitors for beginners at programming and at the same time to be a strong and reliable method that can be capable of satisfying the needs of the advance programming.<br>
+The handling of Nextion should be as simple and at the same time as professional as a display of this kind deserves.</p>
+<p>I have invested time and resources providing open source codes, like this one. Please do not hesitate to support my work!<br>
+If you found this work useful and has saved you time and effort,<br>
+just simply paypal me at: <a href="mailto:seithagta@gmail.com">seithagta@gmail.com</a></p>
+<h2 id="installation">Installation</h2>
+<h3 id="first-method">First Method</h3>
+<ol>
+<li>In the Arduino IDE, navigate to Sketch &gt; Include Library &gt; Manage Libraries</li>
+<li>Then the Library Manager will open and you will find a list of libraries that are already installed or ready for installation.</li>
+<li>Then search for EasyNextionLibrary using the search bar.</li>
+<li>Click on the text area and then select the latest version and install it.</li>
+</ol>
+<h3 id="second-method">Second Method</h3>
+<ol>
+<li>Download the latest release of EasyNextionLibrary.</li>
+<li>Extract the <code>.zip</code> file</li>
+<li>Copy the EasyNextionLibrary folder, to: …\Arduino\libraries\</li>
+</ol>
+<p><em><strong>NOTE</strong></em>: <code>.HMI</code> files for Nextion Editor are also included in every example’s folder.<br>
+All <code>.HMIs</code> are set for 2.8" Basic screens, so as to be easier to modify it for bigger screens.</p>
+<h2 id="the-main-functions">The main functions</h2>
+<ul>
+<li><code>begin();</code></li>
+<li><code>writeNum();</code></li>
+<li><code>writeStr();</code></li>
+<li><code>readNumber();</code></li>
+<li><code>trigger();</code></li>
+</ul>
+<p><em><strong>And the public variables:</strong></em></p>
+<ul>
+<li>currentPageId (Data Type: <strong>Integer</strong>)</li>
+<li>lastCurrentPageId (Data Type: <strong>Integer</strong>)</li>
+</ul>
+<h2 id="step-example">4-step Example</h2>
+<ol>
+<li><strong>Include</strong> <em><strong>EasyNextionLibrary</strong></em> and create an object of <code>EasyNex</code> class</li>
+</ol>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"EasyNextionLibrary.h"</span>  </span><span class="token comment">// Include EasyNextionLibrary</span>
+
+EasyNex <span class="token function">myNex</span><span class="token punctuation">(</span>Serial<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Create an object of EasyNex class with the name &lt; myNex &gt; </span>
+                       <span class="token comment">// Set as parameter the Serial you are going to use</span>
+</code></pre>
+<ol start="2">
+<li><strong>Begin the object</strong> and give the desired baud rate as a parameter. Also, initialize the built-in LED as output</li>
+</ol>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">void</span> <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  myNex<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token number">9600</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Begin the object with a baud rate of 9600</span>
+                     <span class="token comment">// If no parameter was given in the begin(), the default baud rate of 9600 will be used </span>
+  <span class="token function">pinMode</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">,</span> OUTPUT<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// The built-in LED is initialized as an output                     </span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="3">
+<li><strong>Place</strong> the <strong>NextionListen()</strong> function in the loop.</li>
+</ol>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">void</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  myNex<span class="token punctuation">.</span><span class="token function">NextionListen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// This function must be called repeatedly to response touch events</span>
+                         <span class="token comment">// from Nextion touch panel. Actually, you should place it in your loop function.</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ol start="4">
+<li><strong>Select one of the 50 predefined trigger()</strong> functions and use it as a simple void. Write the code you want to run in there.<br>
+The <code>trigger1()</code> function will run every time the following sequence of bytes (in HEX format) <code>23 02 54 01</code> comes to Arduino’s Serial. To do that, write in the <code>Touch Release Event</code> of the button b0, this command: <code>printh 23 02 54 01</code></li>
+</ol>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">void</span> <span class="token function">trigger1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+
+  <span class="token function">digitalWrite</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">,</span> <span class="token operator">!</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">)</span> <span class="token operator">==</span> HIGH<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    myNex<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"b0.bco"</span><span class="token punctuation">,</span> <span class="token number">2016</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set button b0 background color to GREEN (color code: 2016)</span>
+    myNex<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"b0.txt"</span><span class="token punctuation">,</span> <span class="token string">"ON"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set button b0 text to "ON"</span>
+    
+  <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">)</span> <span class="token operator">==</span> LOW<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    myNex<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"b0.bco"</span><span class="token punctuation">,</span> <span class="token number">63488</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set button b0 background color to RED (color code: 63488)</span>
+    myNex<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"b0.txt"</span><span class="token punctuation">,</span> <span class="token string">"OFF"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set button b0 text to "ON"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Enjoy the Easy Nextion Library!! Please do not forget the LED on :)</p>
+<h2 id="full-example-code">Full Example Code</h2>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token comment">/*
+ * FourStepExample.ino - Simple example code
+ * Copyright (c) 2020 Athanasios Seitanis &lt; seithagta@gmail.com &gt;. 
+ * All rights reserved. EasyNextionLibrary is licensed under the MIT License
+ * https://opensource.org/licenses/MIT
+ */</span>
+<span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"EasyNextionLibrary.h"</span>  </span><span class="token comment">// Include EasyNextionLibrary</span>
+
+EasyNex <span class="token function">myNex</span><span class="token punctuation">(</span>Serial<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Create an object of EasyNex class with the name &lt; myNex &gt; </span>
+                       <span class="token comment">// Set as parameter the Serial you are going to use</span>
+
+<span class="token keyword">void</span> <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  myNex<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token number">9600</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Begin the object with a baud rate of 9600</span>
+                     <span class="token comment">// If no parameter was given in the begin(), the default baud rate of 9600 will be used </span>
+                     
+  <span class="token function">pinMode</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">,</span> OUTPUT<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// The built-in LED is initialized as an output                     </span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  myNex<span class="token punctuation">.</span><span class="token function">NextionListen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// This function must be called repeatedly to response touch events</span>
+                         <span class="token comment">// from Nextion touch panel. Actually, you should place it in your loop function.</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">trigger1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token comment">/* Create a button on Nextion
+   * Write in the Touch Release Event of the button
+   * this command:    printh 23 02 54 01
+   * Every time the button is pressed, the trigger1() function will run
+   * and the code inside will be executed once
+   */</span>
+  <span class="token function">digitalWrite</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">,</span> <span class="token operator">!</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//If LED_BUILTIN is ON, turn it OFF, or the opposite</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">)</span> <span class="token operator">==</span> HIGH<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    myNex<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"b0.bco"</span><span class="token punctuation">,</span> <span class="token number">2016</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set button b0 background color to GREEN (color code: 2016)</span>
+    myNex<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"b0.txt"</span><span class="token punctuation">,</span> <span class="token string">"ON"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set button b0 text to "ON"</span>
+    
+  <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">)</span> <span class="token operator">==</span> LOW<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    myNex<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"b0.bco"</span><span class="token punctuation">,</span> <span class="token number">63488</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set button b0 background color to RED (color code: 63488)</span>
+    myNex<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"b0.txt"</span><span class="token punctuation">,</span> <span class="token string">"OFF"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set button b0 text to "ON"</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<h2 id="function-documentation">Function documentation</h2>
+<p><em><strong>The various combinations of attribute choices provide a wide range of expected behaviors with many combinations.<br>
+This combined with the Nextion Instruction Set creates the opportunity for very powerful HMIs.</strong></em></p>
+<h3 id="function-trigger">Function trigger();</h3>
+<p><strong><code>Associated Library's Code Example:</code></strong> <strong><em><code>Trigger</code></em> <strong><code>and</code></strong> <em><code>FourStepExample</code></em></strong></p>
+<p><em><strong>Description:</strong></em><br>
+This is the most important function of the library.<br>
+And this is because, it gives you the ability to use the predefined functions and run your code from there.<br>
+These predefined functions are named <code>trigger1()</code>, <code>trigger2()</code>, <code>trigger3()</code>… up to <code>trigger50()</code>.<br>
+You can use them as a simple void function out of the loop, in which you will have written a block of code to run every time it is called.<br>
+You can call those <code>trigger()</code> functions and run the code they contain anytime by simply writing in a Nextion Event the command: <code>printh 23 02 54 XX</code> , where <code>XX</code> the id for the triggerXX() in HEX.<br>
+For example in a button’s Touch Release Event, write:</p>
+
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>printh 23 02 54 01</td>
+<td>trigger1()</td>
+</tr>
+<tr>
+<td>printh 23 02 54 02</td>
+<td>trigger2()</td>
+</tr>
+<tr>
+<td>…</td>
+<td>…</td>
+</tr>
+<tr>
+<td>printh 23 02 54 0A</td>
+<td>trigger10()</td>
+</tr>
+<tr>
+<td>… up to</td>
+<td>… up to</td>
+</tr>
+<tr>
+<td>printh 23 02 54 32</td>
+<td>trigger50()</td>
+</tr>
+</tbody>
+</table><p>In Arduino code, declare a void <code>trigger()</code> function with the predefined name you want to use and put your code there.<br>
+Declare the void by simply writing:</p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">void</span> <span class="token function">trigger1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token punctuation">[</span> put your code here <span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Example:</p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">"EasyNextionLibrary.h"</span></span>
+
+EasyNex <span class="token function">myObject</span><span class="token punctuation">(</span>Serial<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">void</span> <span class="token function">setup</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  myObject<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token number">9600</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token function">pinMode</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">,</span> OUTPUT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">void</span> <span class="token function">loop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  myObject<span class="token punctuation">.</span><span class="token function">NextionListen</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">void</span> <span class="token function">trigger1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token function">digitalWrite</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">,</span> <span class="token operator">!</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><em><strong>1st NOTE</strong></em>: To change the predefined names of the <code>trigger()</code> functions, there are details inside the <code>trigger.cpp</code> file and you can add up to <strong>255</strong> functions of this kind.<br>
+<em><strong>2nd NOTE</strong></em>: You can send  the same <code>printh</code> command, to call the same function, from more than one component from any page, depending on your needs</p>
+<p><em>See Appendix at the end of the document for numbers in HEX table</em></p>
+<h3 id="function-begin">Function begin();</h3>
+<p><em><strong>Parameters:</strong></em><br>
+begin(<code>unsigned long</code>)<br>
+<strong>unsigned long</strong>: unsigned long baud = <strong>9600</strong> (default) if nothing is written in the begin() function</p>
+<p><em><strong>Description:</strong></em><br>
+<strong>The begin()</strong> method of the class in which we pass the initialization data to the objects.</p>
+<p><em><strong>Syntax:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token number">115200</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// for baud rate 115200</span>
+</code></pre>
+<h3 id="function-writenum">Function writeNum();</h3>
+<p><strong><code>Associated Library's Code Example:</code> <em><code>ReadAndWriteNumber</code></em></strong></p>
+<p><em><strong>Parameters:</strong></em><br>
+writeNum(<code>String</code>, <code>uint32_t</code>)</p>
+<ul>
+<li><strong>String</strong> = objectname.numericAttribute (example: “n0.val”  or “n0.bco”…etc)</li>
+<li><strong>uint32_t</strong> = value (example: 84)(number from 0 to 4,294,967,295)</li>
+</ul>
+<p><em><strong>Description:</strong></em><br>
+For writing numbers in numeric attributes in components of any kind (variables, textboxes,  etc.).</p>
+<ul>
+<li>We can change the shown value of a number box</li>
+<li>We can change the value of a numeric attribute of the design editing commands. Those commands are used to change the attribute of the components (button, text box, timer, numeric etc.) while Nextion is running.</li>
+</ul>
+
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Result on n0 comp.</th>
+<th>Syntax</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>n0.val=30</td>
+<td>Sets n0 component’s shown value to 30</td>
+<td><code>myObject.**writeNum**("n0.val", 30);</code></td>
+</tr>
+<tr>
+<td>n0.bco=63488</td>
+<td>Sets background color to red</td>
+<td><code>myObject.**writeNum**("n0.bco", 63488);</code></td>
+</tr>
+<tr>
+<td>n0.font=0</td>
+<td>Sets font to font style with Id = 0</td>
+<td><code>myObject.**writeNum**("n0.font", 0);</code></td>
+</tr>
+<tr>
+<td>n0.pco=1055</td>
+<td>Sets font color to blue</td>
+<td><code>myObject.**writeNum**("n0.pco", 1055);</code></td>
+</tr>
+<tr>
+<td>n0.format=0</td>
+<td>Sets value format to decimal</td>
+<td><code>myObject.**writeNum**("n0.format", 0);</code></td>
+</tr>
+</tbody>
+</table><p>With the same way you can change the xcen, ycen, length and isbr</p>
+<p><em><strong>TIP:</strong> In a timer component, at the attribute &lt; <strong>en</strong> &gt;, you can start or stop the timer by writing <strong>0</strong> or <strong>1</strong>.</em><br>
+Also, at the attribute &lt; <strong>tim</strong> &gt;, you can set the time the timer is going to repeat the commands written in timer’s User-code event.</p>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"tm0.en"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>     <span class="token comment">// 0 = stop, 1 = start</span>
+myObject<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"tm0.tim"</span><span class="token punctuation">,</span> <span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// repeat code every 1000ms</span>
+</code></pre>
+<p><em><strong>Syntax:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"n0.val"</span><span class="token punctuation">,</span> <span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// Set the value of numeric n0 to 30</span>
+myObject<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"n0.bco"</span><span class="token punctuation">,</span> <span class="token number">63488</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set background color of n0 to 63488(red)</span>
+myObject<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"n0.font"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>    <span class="token comment">// Set font to font style with ID 0</span>
+myObject<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"n0.pco"</span><span class="token punctuation">,</span> <span class="token number">1055</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Set font color to blue</span>
+myObject<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"n0.format"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Set value format to decimal</span>
+</code></pre>
+<p><em><strong>NOTE:</strong> Only attributes shown in green in the Editor can be both read and changed by user code at runtime.</em><br>
+<img src="http://seithan.com/data/documents/tempAttributePane.png" alt="Attribute panel"></p>
+<h3 id="send-floating-point-numbers-a-number-that-has-a-decimal-point.">Send floating-point numbers, a number that has a decimal point.</h3>
+<p><em><strong>Description:</strong></em><br>
+Nextion <strong>DOES NOT SUPPORT</strong> float numbers. Instead, it uses integer math and does not have real or floating support.<br>
+The Xfloat component is used for signed 32-bit integer values.<br>
+The <code>.vvs0</code> sets the number of digits shown to the left of the decimal (useful for leading zeros).<br>
+The <code>.vvs1</code> sets the number of digits shown to the right of the decimal.</p>
+<p><em><strong>You can send Floating-point numbers with these two ways</strong></em>:</p>
+<ul>
+<li>On a <strong>Xfloat component</strong> after you convert the float to int and multiply it by 10, the Xfloat component will put a comma <code>,</code> (decimal point) automatically after the last digit  if attribute <code>vvs1</code> is set to 1.</li>
+</ul>
+<p><em><strong>Example:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">int</span> tempInt <span class="token operator">=</span> temperature<span class="token operator">*</span><span class="token number">10</span><span class="token punctuation">;</span>      <span class="token comment">// Convert the float to int. Multiply it x10                       </span>
+myNex<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"x0.val"</span><span class="token punctuation">,</span> tempInt<span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Write it to x0 Xfloat component on Nextion</span>
+</code></pre>
+<p>it is obvious that if you want 2 decimal places, you will set the attribute <code>vvs1</code> to <code>2</code> and you will multiply by <code>100</code></p>
+<ul>
+<li>On a <strong>Textbox component</strong> after you convert the float value to String</li>
+</ul>
+<p><em><strong>Example:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp">String tempString <span class="token operator">=</span> <span class="token function">String</span><span class="token punctuation">(</span>temperature<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Convert the float value to String, with 1 decimal place</span>
+myNex<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt"</span><span class="token punctuation">,</span> tempString<span class="token punctuation">)</span><span class="token punctuation">;</span>       <span class="token comment">// Write the String value to t0 Textbox component</span>
+</code></pre>
+<h3 id="function-writestr">Function writeStr();</h3>
+<p><strong><code>Associated Library's Code Example:</code> <em><code>WriteTextAndCommands</code></em></strong></p>
+<p><em><strong>Parameters:</strong></em></p>
+<ul>
+<li>
+<p>writeStr(<code>String</code>, <code>String</code>). <em>To change the <code>.txt</code> attribute in components</em><br>
+<strong>String No1</strong>: objectname.textAttribute (example: “t0.txt”  or “b0.txt”)<br>
+<strong>String No2</strong>: value (example: “Hello World”)</p>
+</li>
+<li>
+<p>writeStr(<code>String</code>). <em>To send Designing and System Commands</em><br>
+<strong>String</strong>: The command to send on Nextion</p>
+</li>
+</ul>
+<p><em><strong>Description:</strong></em><br>
+For writing text in Nextion. The two ways the command can be used:</p>
+<p><strong>First Usage of the command</strong>:<br>
+Use <strong>writeStr(</strong> <code>String</code>, <code>String</code> <strong>)</strong> to change the text in a textbox<br>
+Use both parameters to write text in textboxes.</p>
+<ul>
+<li>In the first parameter, write the objectName.textAttribute example: t0.txt or b0.txt</li>
+<li>In the second parameter, write the text you want to “print”</li>
+</ul>
+<p><em><strong>1st Syntax:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt"</span><span class="token punctuation">,</span> <span class="token string">"Hello World"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Change t0 text to "Hello World"</span>
+</code></pre>
+<p>Any previous text on the textbox is deleted</p>
+<p>Avoid using very big text Strings in the same command, as Nextion will not recognise them. Istead use a second command and in order to add to the existing text, use the <strong><code>+</code></strong> symbol, after the <code>.textAttribute("t0.txt+")</code>.</p>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt"</span><span class="token punctuation">,</span> <span class="token string">"You are now transferred to page2\\rThank you\\rfor choosing my library!!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt+"</span><span class="token punctuation">,</span> <span class="token string">"\\rEnjoy the library!!!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt+"</span><span class="token punctuation">,</span> <span class="token string">"\\r\\rAthanasios Seitanis\\rseithagta@gmail.com"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">/* By writing \\r, you send Nextion the change line character &lt; \r &gt;
+   * The second \ is required, in order to print the \ as character
+   * and not as an escape character.
+   */</span>
+</code></pre>
+<p><strong>Second Usage of the command</strong>:<br>
+Use <strong>writeStr(</strong> <code>String</code> <strong>)</strong> to send Designing and System Commands according to the instructions of Nextion’s Instruction Set.<br>
+Use only the first parameter to send a command to Nextion. The commands must be syntaxed according to Nextion’s Instruction Set.</p>
+<p><em><strong>2nd Syntax:</strong></em><br>
+<em><strong>Design Commands Example:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"page page0"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sending this command to change the page we are on Nextion using pageName</span>
+myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"page 1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sending this command to change the page we are on Nextion using pageId</span>
+</code></pre>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"cir 100,100,30,RED"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Renders a hollow Red circle with circle center at (100,100)</span>
+</code></pre>
+<p><em><strong>System Commands Example:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"dim=50"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Set the current brightness level to 50%</span>
+</code></pre>
+<pre class=" language-cpp"><code class="prism  language-cpp">myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"sleep=1"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// sleep=1 (Enter sleep mode) or sleep=0 (Exit sleep mode)</span>
+</code></pre>
+<p><em><strong>NOTE</strong>: When you decide to exit the sleep mode on Nextion, use a small delay of 50ms, in order to give Nextion some time to Exit sleep mode.</em><br>
+<em><strong>WARNING</strong>: DO NOT send commands that causes data return over Serial to MCU, unless you know what you are doing.</em><br>
+Commands that cause data return over serial:<br>
+<code>print</code>, <code>prints</code>, <code>printh</code>, <code>sendme</code>, <code>get</code>, <code>rept</code>, <code>rdfile</code>, <code>twfile</code><br>
+<em><strong>TIP</strong>: Write in the debug mode the command to check if it is written correctly</em></p>
+<h3 id="function-readnumber">Function readNumber();</h3>
+<p><strong><code>Associated Library's Code Example:</code> <em><code>ReadAndWriteNumber</code></em></strong></p>
+<p><em><strong>Parameters:</strong></em><br>
+readNumber(<code>String</code>)</p>
+<ul>
+<li><strong>String</strong>: objectname.numericAttribute (example: “n0.val”, “n0.pco”, “n0.bco”…etc)</li>
+</ul>
+<p><em><strong>Description:</strong></em><br>
+We use it to read the value of every components’ numeric attribute from Nextion (value, bco color, pco color…etc)</p>
+<p>In case the function fails to read the new value, it will return the number <code>7777</code>.<br>
+The chances of getting a wrong value is one in a million.<br>
+You can use this, fail return value, feature in your code, in case you handle sensitive value data, to confirm that you have the right value.<br>
+You can check it with an <strong><code>if()</code></strong> statement, in which you will ignore the value of <code>7777</code> and you can run the <code>readNumber()</code> again or set a safe value or use the last good known value method.</p>
+<pre class=" language-cpp"><code class="prism  language-cpp">uint32_t number <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+uint32_t lastnumber <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+
+number <span class="token operator">=</span> myNex<span class="token punctuation">.</span><span class="token function">readNumber</span><span class="token punctuation">(</span><span class="token string">"n0.val"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// We read the value of n0 and store it to number variable</span>
+    
+<span class="token keyword">if</span><span class="token punctuation">(</span>number <span class="token operator">!=</span> <span class="token number">7777</span><span class="token punctuation">)</span><span class="token punctuation">{</span>       <span class="token comment">// 7777 is the return value if the code fails to read the new value</span>
+  lastnumber <span class="token operator">=</span> number<span class="token punctuation">;</span>
+  
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>number <span class="token operator">==</span> <span class="token number">7777</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    number <span class="token operator">=</span> lastNumber<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><em><strong>Syntax:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">unsigned</span> <span class="token keyword">long</span> x <span class="token operator">=</span> myObject<span class="token punctuation">.</span><span class="token function">readNumber</span><span class="token punctuation">(</span><span class="token string">"n0.val"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Store to x the value of numeric box n0</span>
+<span class="token keyword">unsigned</span> <span class="token keyword">int</span> y <span class="token operator">=</span> myObject<span class="token punctuation">.</span><span class="token function">readNumber</span><span class="token punctuation">(</span><span class="token string">"b0.bco"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Strore to y the color number of the background of button b0</span>
+</code></pre>
+<p><em><strong>NOTE:</strong> Only attributes shown in <strong>green</strong> in the Editor can be both read and changed by user code at runtime.</em></p>
+<h2 id="library-public-variables">Library Public Variables</h2>
+<p><strong><code>Associated Library's Code Example:</code> <em><code>ChangePagesAndSentFloatValues</code></em></strong></p>
+<p><em><strong>1st Variable</strong></em>:<br>
+<em>currentPageId</em><br>
+A variable that stores the ID number of the current page loaded on Nextion. It is <strong>VERY</strong> important that Nextion and Arduino are synced and when you send data, the data goes to the right page.</p>
+<p><strong>NOTE</strong>: In order to update this variable with the current Id of the page, you must write the Preinitialize Event of every page: <code>printh 23 02 50 XX</code> , where <code>XX</code> the id of the page in HEX.<br>
+For page0: <code>printh 23 02 50 00</code><br>
+for page9: <code>printh23 02 50 09</code><br>
+for page10: <code>printh 23 02 50 0A</code></p>
+<p><em>See Appendix at the end of the document for numbers in HEX table</em></p>
+<p>It can be called by writing:</p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">int</span> x <span class="token operator">=</span> myObject<span class="token punctuation">.</span>currentPageId<span class="token punctuation">;</span> <span class="token comment">// Store to x the currentPageId</span>
+</code></pre>
+<p><strong>Example</strong>:</p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">if</span><span class="token punctuation">(</span>myObject<span class="token punctuation">.</span>currentPageId <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt"</span><span class="token punctuation">,</span> <span class="token string">"You are on page0!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>myObject<span class="token punctuation">.</span>currentPageId <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+  myObject<span class="token punctuation">.</span><span class="token function">writeStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt"</span><span class="token punctuation">,</span> <span class="token string">"You are on page1!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><em><strong>2nd Variable</strong></em>:<br>
+<em>lastCurrentPageId</em><br>
+This variable stores the last value of <code>currentPageId</code> before <code>currentPageId</code> is changed. We use it to check if the page we are on has changed, in order to send refreshing screen data to the components of the page.</p>
+<p>After that, it can be set to equal with the <code>currentPageId</code>, in order not to send unnecessary data for refreshing the components.</p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">if</span><span class="token punctuation">(</span>myObject<span class="token punctuation">.</span>currentPageId <span class="token operator">!=</span> myObject<span class="token punctuation">.</span>lastCurrentPageId<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">if</span><span class="token punctuation">(</span>myObject<span class="token punctuation">.</span>currentPageId <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>send the data to refresh the page0<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>myObject<span class="token punctuation">.</span>currentPageId <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token punctuation">[</span>send the data to refresh the page1<span class="token punctuation">]</span>
+  <span class="token punctuation">}</span>
+  myObject<span class="token punctuation">.</span>lastCurrentPageId <span class="token operator">=</span> myObject<span class="token punctuation">.</span>currentPageId<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Find more on the Library’s Example:  <em><code>ChangePagesAndSentFloatValues</code></em><br>
+<em><strong>TIP</strong>: You can read the ID of the current Loaded page at anytime, without the use of the Library’s commands using the <code>dp</code> system command</em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">int</span> x <span class="token operator">=</span> myObject<span class="token punctuation">.</span><span class="token function">readNumber</span><span class="token punctuation">(</span><span class="token string">"dp"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Store to x the ID of the current Loaded page</span>
+</code></pre>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li>Arduino</li>
+<li>ESP</li>
+</ul>
+<p>Tested MCUs:</p>
+<ol>
+<li>Arduino NANO</li>
+<li>Arduino MEGA 2560</li>
+<li>Arduino UNO</li>
+<li>WeMos D1 mini ESP8266</li>
+</ol>
+<h2 id="licence">Licence</h2>
+<p>This library is licensed under <strong>MIT X11 license</strong>.<br>
+Copyright © &lt;2020&gt;  Athanasios Seitanis</p>
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+<p>Except as contained in this notice, the name of Athanasios Seitanis or the name of EasyNextionLibrary shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization from Athanasios Seitanis.<br>
+Also, prior written permission is required if this software or any part of it or any modifications of it, are used for commercial purposes.</p>
+<p>By using this software, you agree with the above terms and conditions as they are.<br>
+The owner of the software has the right to change the terms of this license at any time without a prior notification.</p>
+<h2 id="appendix">Appendix</h2>
+<h3 id="numbers-in-hex">Numbers in HEX:</h3>
+
+<table>
+<thead>
+<tr>
+<th>DEC</th>
+<th>HEX</th>
+<th>-</th>
+<th>DEC</th>
+<th>HEX</th>
+<th>-</th>
+<th>DEC</th>
+<th>HEX</th>
+<th>-</th>
+<th>DEC</th>
+<th>HEX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><strong>00</strong></td>
+<td>-</td>
+<td>16</td>
+<td><strong>10</strong></td>
+<td>-</td>
+<td>32</td>
+<td><strong>20</strong></td>
+<td>-</td>
+<td>48</td>
+<td><strong>30</strong></td>
+</tr>
+<tr>
+<td>1</td>
+<td><strong>01</strong></td>
+<td>-</td>
+<td>17</td>
+<td><strong>11</strong></td>
+<td>-</td>
+<td>33</td>
+<td><strong>21</strong></td>
+<td>-</td>
+<td>49</td>
+<td><strong>31</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>02</strong></td>
+<td>-</td>
+<td>18</td>
+<td><strong>12</strong></td>
+<td>-</td>
+<td>34</td>
+<td><strong>22</strong></td>
+<td>-</td>
+<td>50</td>
+<td><strong>32</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>03</strong></td>
+<td>-</td>
+<td>19</td>
+<td><strong>13</strong></td>
+<td>-</td>
+<td>35</td>
+<td><strong>23</strong></td>
+<td>-</td>
+<td>51</td>
+<td><strong>33</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>04</strong></td>
+<td>-</td>
+<td>20</td>
+<td><strong>14</strong></td>
+<td>-</td>
+<td>36</td>
+<td><strong>24</strong></td>
+<td>-</td>
+<td>52</td>
+<td><strong>34</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>05</strong></td>
+<td>-</td>
+<td>21</td>
+<td><strong>15</strong></td>
+<td>-</td>
+<td>37</td>
+<td><strong>25</strong></td>
+<td>-</td>
+<td>53</td>
+<td><strong>35</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>06</strong></td>
+<td>-</td>
+<td>22</td>
+<td><strong>16</strong></td>
+<td>-</td>
+<td>38</td>
+<td><strong>26</strong></td>
+<td>-</td>
+<td>54</td>
+<td><strong>36</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>07</strong></td>
+<td>-</td>
+<td>23</td>
+<td><strong>17</strong></td>
+<td>-</td>
+<td>39</td>
+<td><strong>27</strong></td>
+<td>-</td>
+<td>55</td>
+<td><strong>37</strong></td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>08</strong></td>
+<td>-</td>
+<td>24</td>
+<td><strong>18</strong></td>
+<td>-</td>
+<td>40</td>
+<td><strong>28</strong></td>
+<td>-</td>
+<td>56</td>
+<td><strong>38</strong></td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>09</strong></td>
+<td>-</td>
+<td>25</td>
+<td><strong>19</strong></td>
+<td>-</td>
+<td>41</td>
+<td><strong>29</strong></td>
+<td>-</td>
+<td>57</td>
+<td><strong>39</strong></td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>0A</strong></td>
+<td>-</td>
+<td>26</td>
+<td><strong>1A</strong></td>
+<td>-</td>
+<td>42</td>
+<td><strong>2A</strong></td>
+<td>-</td>
+<td>58</td>
+<td><strong>3A</strong></td>
+</tr>
+<tr>
+<td>11</td>
+<td><strong>0B</strong></td>
+<td>-</td>
+<td>27</td>
+<td><strong>1B</strong></td>
+<td>-</td>
+<td>43</td>
+<td><strong>2B</strong></td>
+<td>-</td>
+<td>59</td>
+<td><strong>3B</strong></td>
+</tr>
+<tr>
+<td>12</td>
+<td><strong>0C</strong></td>
+<td>-</td>
+<td>28</td>
+<td><strong>1C</strong></td>
+<td>-</td>
+<td>44</td>
+<td><strong>2C</strong></td>
+<td>-</td>
+<td>60</td>
+<td><strong>3C</strong></td>
+</tr>
+<tr>
+<td>13</td>
+<td><strong>0D</strong></td>
+<td>-</td>
+<td>29</td>
+<td><strong>1D</strong></td>
+<td>-</td>
+<td>45</td>
+<td><strong>2D</strong></td>
+<td>-</td>
+<td>61</td>
+<td><strong>3D</strong></td>
+</tr>
+<tr>
+<td>14</td>
+<td><strong>0E</strong></td>
+<td>-</td>
+<td>30</td>
+<td><strong>1E</strong></td>
+<td>-</td>
+<td>46</td>
+<td><strong>2E</strong></td>
+<td>-</td>
+<td>62</td>
+<td><strong>3E</strong></td>
+</tr>
+<tr>
+<td>15</td>
+<td><strong>0F</strong></td>
+<td>-</td>
+<td>31</td>
+<td><strong>1F</strong></td>
+<td>-</td>
+<td>47</td>
+<td><strong>2F</strong></td>
+<td>-</td>
+<td>63</td>
+<td><strong>3F</strong></td>
+</tr>
+</tbody>
+</table></div>
+</body>
+
+</html>
