@@ -1,0 +1,45 @@
+#############################################
+# Syntax Coloring Map for EasyNextionLibrary
+#############################################
+
+#############################################
+# Datatypes (KEYWORD1)
+#############################################
+
+EasyNex	KEYWORD1	EasyNex DATA_TYPE
+myNex	KEYWORD1
+
+#############################################
+# Methods and Functions (KEYWORD2)
+#############################################
+
+NextionListen KEYWORD2
+
+writeStr	KEYWORD2
+writeNum	KEYWORD2
+readNumber	KEYWORD2
+currentPageId	KEYWORD2
+lastCurrentPageId	KEYWORD2
+readNumberFromSerial	KEYWORD2
+
+#############################################
+# Specifies Structures (KEYWORD3)
+#############################################
+
+trigger1	KEYWORD3	trigger1	RESERVED_WORD
+trigger2	KEYWORD3	trigger2	RESERVED_WORD
+trigger3	KEYWORD3	trigger3	RESERVED_WORD
+trigger4	KEYWORD3	trigger4	RESERVED_WORD
+trigger5	KEYWORD3	trigger5	RESERVED_WORD
+trigger6	KEYWORD3	trigger6	RESERVED_WORD
+trigger7	KEYWORD3	trigger7	RESERVED_WORD
+trigger8	KEYWORD3	trigger8	RESERVED_WORD
+trigger9	KEYWORD3	trigger9	RESERVED_WORD
+trigger10	KEYWORD3	trigger10	RESERVED_WORD
+
+
+
+#############################################
+# Constants (LITERAL1)
+#############################################
+
