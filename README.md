@@ -9,7 +9,7 @@ The handling of Nextion should be as simple and at the same time as professional
 
 I have invested time and resources providing open source codes, like this one. Please do not hesitate to support my work!
 If you found this work useful and has saved you time and effort, 
-just simply paypal me at: seithagta@gmail.com
+just simply paypal me at this Link: [seithagta@gmail.com](https://paypal.me/seithan?locale.x=el_GR)
 
 ## Installation 
 
