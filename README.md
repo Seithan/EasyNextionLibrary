@@ -63,7 +63,14 @@ void loop(){
                          // from Nextion touch panel. Actually, you should place it in your loop function.
 }
 ````
-4. **Select one of the 50 predefined trigger()** functions and use it as a simple void. Write the code you want to run in there. 
+4. **Select one of the 50 predefined trigger()** functions and use it as a simple void function (nothing returned).
+Declare the void function by simply writing:
+````Cpp
+void trigger1(){
+[ put your code here !!!!]
+}
+````
+* Write the code you want to run in there.  
 The `trigger1()` function will run every time the following sequence of bytes (in HEX format) `23 02 54 01` comes to Arduino's Serial. To do that, write in the `Touch Release Event` of the button b0, this command: `printh 23 02 54 01`
 ````Cpp
 void trigger1(){
@@ -148,7 +155,7 @@ For example in a button's Touch Release Event, write:
 |printh 23 02 54 32 |trigger50() |
 
 In Arduino code, declare a void `trigger()` function with the predefined name you want to use and put your code there. 
-Declare the void by simply writing:
+Declare the void function by simply writing:
 ````Cpp
 void trigger1(){
 [ put your code here !!!!]
