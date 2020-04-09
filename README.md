@@ -23,7 +23,7 @@ just simply paypal me at: seithagta@gmail.com
 1. Download the latest release of EasyNextionLibrary.
 [https://github.com/Seithan/EasyNextionLibrary](https://github.com/Seithan/EasyNextionLibrary)
 2. Extract the `.zip` file 
-3. Copy the EasyNextionLibrary folder, to: ....\Arduino\libraries\ 
+3. Copy the EasyNextionLibrary folder, to: ....\Arduino\libraries\  
 
 
 ***NOTE***: `.HMI` files for Nextion Editor are also included in every example's folder.
