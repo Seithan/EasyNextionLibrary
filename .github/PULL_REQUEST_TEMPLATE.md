@@ -3,7 +3,11 @@ Before you open the request please review the following guidelines and tips to h
 
 - **The intention is to be as simple as possible, at both the programming and functionality**. When I was building this library, I tried hard to put as less functions as possible, without restricting the capabilities of the library and I would like to keep it that way. So please report only bugs that might exist. And of course, if you believe something needs to be added, do not hesitate to make a request!. 
   
-  * **This library is written according to the Arduino APIStyleGuide**
+   **This library is written according to the Arduino APIStyleGuide**
+   [## Arduino style guide](https://www.arduino.cc/en/Reference/StyleGuide)
+   Efficiency is not paramount; readability is.
+   The most important users of Arduino are beginners and people who don't care about code, but about getting projects done.
+Think generously about people who know less than you about code. Don't think they  _should_  understand some technical concept. They don't, and they're not stupid for not understanding. Your code should explain itself, or use comments to do the same. If it needs a complex concept like registers or interrupts or pointers, either explain it or skip it.
     1. **Be kind to the end user**
     1. **Match your API to the underlying capabilities**
     1. **Organize your public functions around the data and functionality that the user wants**
