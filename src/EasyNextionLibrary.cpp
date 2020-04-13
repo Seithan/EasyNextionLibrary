@@ -140,9 +140,15 @@ uint32_t EasyNex::readNumberFromSerial(){   // With this functions, we check if 
                                             // You must have a timer to break the while, as the code could get stuck in the while()
                                              
   _tmr1 = millis();
-  while(_serial->available() < 2){   // Waiting for bytes to come to Serial
+  
+  while(_serial->available() < 4){   // Waiting for bytes to come to Serial
     if((millis() - _tmr1) > 500){    // Waiting... But not forever... 
-      break;                            
+      uint16_t _tempUint = _serial->available();
+      for(int i = 0; i < _tempUint; i++){
+        _serial->read();
+      }
+      _waitingForNumber = true;
+      return _numberValue;      
     }
   }
   
@@ -152,7 +158,12 @@ uint32_t EasyNex::readNumberFromSerial(){   // With this functions, we check if 
     while(_start_char != '#'){         // Read the Serial until start_char is found
       _start_char = _serial->read();   // Just in case that "garbage" data lying on Serial
       if((millis() - _tmr1) > 400){    // Reading... Waiting... But not forever...... 
-        break;                            
+        uint16_t _tempUint = _serial->available();
+        for(int i = 0; i < _tempUint; i++){
+          _serial->read();
+        }
+	_waitingForNumber = true;
+        return _numberValue;                            
       }   
     }
     if(_start_char == '#'){        // And when we find the character #
@@ -164,6 +175,10 @@ uint32_t EasyNex::readNumberFromSerial(){   // With this functions, we check if 
       while(_serial->available() < _len){ // Waiting for all the bytes that we declare with <len> to arrive              
         if((millis() - _tmr1) > 400){     // Waiting... But not forever...... 
           _cmdFound = false;              // tmr_1 a timer to avoid the stack in the while loop if there is not any bytes on _serial
+          _len = _serial->available();
+          for(int i = 0; i < _len; i++){
+            _serial->read();
+          }
           break;                            
         }                                     
       }                                   
@@ -207,7 +222,7 @@ uint32_t EasyNex::readNumberFromSerial(){   // With this functions, we check if 
   
   
   return _numberValue;
-} 
+}  
 
 
 /*
