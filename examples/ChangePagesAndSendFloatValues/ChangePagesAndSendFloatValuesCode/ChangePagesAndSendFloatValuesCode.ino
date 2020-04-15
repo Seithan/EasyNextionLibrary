@@ -209,6 +209,7 @@ void refereshCurrentPage(){
         break;
      
     }
+    pageRefreshTimer = millis();
   }
 }
 
