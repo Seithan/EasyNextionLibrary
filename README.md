@@ -250,7 +250,7 @@ myObject.writeNum("n0.pco", 1055);  // Set font color to blue
 myObject.writeNum("n0.format", 0);  // Set value format to decimal
 ````
 ***NOTE:** Only attributes shown in green in the Editor can be both read and changed by user code at runtime.*
-![Attribute panel](./extras/media/AttributePan.png)
+![Attribute panel](./extras/media/AttributePane.png)
 
 
  ### Send floating-point numbers, a number that has a decimal point.
