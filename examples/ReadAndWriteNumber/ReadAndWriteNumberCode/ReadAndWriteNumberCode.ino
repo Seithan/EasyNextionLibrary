@@ -36,7 +36,7 @@ void loop(){
   if((millis() - timer) > LOOP_TIME){
     number = myNex.readNumber("n0.val");   // We read the value of n0 and store it to number variable
     
-    if(number != 777777){                     // 7777 is the return value if the code fails to read the new value
+    if(number != 777777){                     // 777777 is the return value if the code fails to read the new value
       lastnumber = number;                  // The chances of getting a wrong value is one in a million.
                                             // Use this if() to ensure it if you believe it is needed.    
                                             // You can either call the readNumber funtion again 
