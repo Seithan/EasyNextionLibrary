@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>README</title>
+  <title>readme102</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
@@ -17,7 +17,8 @@ This is an attempt to give a very simple method to use Nextion monitors for begi
 The handling of Nextion should be as simple and at the same time as professional as a display of this kind deserves.</p>
 <p>I have invested time and resources providing open source codes, like this one. Please do not hesitate to support my work!<br>
 If you found this work useful and has saved you time and effort,<br>
-just simply paypal me at: <a href="mailto:seithagta@gmail.com">seithagta@gmail.com</a></p>
+just simply paypal me at this Link: <a href="https://paypal.me/seithan?locale.x=el_GR">seithagta@gmail.com</a></p>
+<p>You can find more examples, tutorials and projects with Nextion on my website <a href="https://seithan.com/">seithan.com</a> or at my YouTube channel <a href="https://www.youtube.com/channel/UCk_AjYtvzUC58ups5Lm053g">Thanasis Seitanis</a></p>
 <h2 id="installation">Installation</h2>
 <h3 id="first-method">First Method</h3>
 <ol>
@@ -26,9 +27,15 @@ just simply paypal me at: <a href="mailto:seithagta@gmail.com">seithagta@gmail.c
 <li>Then search for EasyNextionLibrary using the search bar.</li>
 <li>Click on the text area and then select the latest version and install it.</li>
 </ol>
+<p><img src="./media/EasyNextionLibrary_Arduino_Library_Manager.png" alt="enter image description here"></p>
 <h3 id="second-method">Second Method</h3>
 <ol>
 <li>Download the latest release of EasyNextionLibrary.</li>
+</ol>
+<ul>
+<li>From: <a href="https://github.com/Seithan/EasyNextionLibrary">https://github.com/Seithan/EasyNextionLibrary</a></li>
+</ul>
+<ol start="2">
 <li>Extract the <code>.zip</code> file</li>
 <li>Copy the EasyNextionLibrary folder, to: …\Arduino\libraries\</li>
 </ol>
@@ -74,9 +81,17 @@ EasyNex <span class="token function">myNex</span><span class="token punctuation"
 <span class="token punctuation">}</span>
 </code></pre>
 <ol start="4">
-<li><strong>Select one of the 50 predefined trigger()</strong> functions and use it as a simple void. Write the code you want to run in there.<br>
-The <code>trigger1()</code> function will run every time the following sequence of bytes (in HEX format) <code>23 02 54 01</code> comes to Arduino’s Serial. To do that, write in the <code>Touch Release Event</code> of the button b0, this command: <code>printh 23 02 54 01</code></li>
+<li><strong>Select one of the 50 predefined trigger()</strong> functions and use it as a simple void function (nothing returned).<br>
+Declare the void function by simply writing:</li>
 </ol>
+<pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">void</span> <span class="token function">trigger1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token punctuation">[</span> put your code here <span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<ul>
+<li>Write the code you want to run in there.<br>
+The <code>trigger1()</code> function will run every time the following sequence of bytes (in HEX format) <code>23 02 54 01</code> comes to Arduino’s Serial. To do that, write in the <code>Touch Release Event</code> of the button b0, this command: <code>printh 23 02 54 01</code></li>
+</ul>
 <pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">void</span> <span class="token function">trigger1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
 
   <span class="token function">digitalWrite</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">,</span> <span class="token operator">!</span><span class="token function">digitalRead</span><span class="token punctuation">(</span>LED_BUILTIN<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
@@ -136,6 +151,14 @@ EasyNex <span class="token function">myNex</span><span class="token punctuation"
 <h2 id="function-documentation">Function documentation</h2>
 <p><em><strong>The various combinations of attribute choices provide a wide range of expected behaviors with many combinations.<br>
 This combined with the Nextion Instruction Set creates the opportunity for very powerful HMIs.</strong></em></p>
+<p><em><strong>NOTE</strong></em>:<br>
+As these commands are using the Serial port to read and write, it is more preferred not to run them in the loop() without delay(); or some other method of not running them with the frequency of the loop and use them only when it is needed.<br>
+Using them in a loop, a delay in the loop can be noticed, especially when reading from the Serial. A Serial buffer overflow can also be caused.<br>
+<em><strong>Also NOTE</strong></em>: (from the Nextion Editor Guide)</p>
+<blockquote>
+<p>In an HMI project a page is a localized unit. When changing pages, the existing page is removed from memory and the &gt; &gt; requested page is then loaded into memory. As such components with a variable scope of <em><strong>local</strong></em> are only accessible while the page they are in is currently loaded. Components within a page that have a variable scope of <em><strong>global</strong></em> are accessible by prefixing the page name to the global component .objname.<br>
+As an Example: A global Number component n0 on page1 is accessed by page1.n0. A local Number component n0 on page1 can be accessed by page1.n0 or n0, but there is little sense to try access a local component if the page is not loaded. Only the component attributes of a global component are kept in memory. Event code is never global in nature.</p>
+</blockquote>
 <h3 id="function-trigger">Function trigger();</h3>
 <p><strong><code>Associated Library's Code Example:</code></strong> <strong><em><code>Trigger</code></em> <strong><code>and</code></strong> <em><code>FourStepExample</code></em></strong></p>
 <p><em><strong>Description:</strong></em><br>
@@ -180,7 +203,7 @@ For example in a button’s Touch Release Event, write:</p>
 </tr>
 </tbody>
 </table><p>In Arduino code, declare a void <code>trigger()</code> function with the predefined name you want to use and put your code there.<br>
-Declare the void by simply writing:</p>
+Declare the void function by simply writing:</p>
 <pre class=" language-cpp"><code class="prism  language-cpp"><span class="token keyword">void</span> <span class="token function">trigger1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
 <span class="token punctuation">[</span> put your code here <span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token operator">!</span><span class="token punctuation">]</span>
 <span class="token punctuation">}</span>
@@ -276,8 +299,9 @@ myObject<span class="token punctuation">.</span><span class="token function">wri
 myObject<span class="token punctuation">.</span><span class="token function">writeNum</span><span class="token punctuation">(</span><span class="token string">"n0.format"</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>  <span class="token comment">// Set value format to decimal</span>
 </code></pre>
 <p><em><strong>NOTE:</strong> Only attributes shown in green in the Editor can be both read and changed by user code at runtime.</em><br>
-<img src="http://seithan.com/data/documents/tempAttributePane.png" alt="Attribute panel"></p>
+<img src="./media/AttributePane.png" alt="Attribute panel"></p>
 <h3 id="send-floating-point-numbers-a-number-that-has-a-decimal-point.">Send floating-point numbers, a number that has a decimal point.</h3>
+<h3 id="or-send-a-number-on-a-textbox">Or send a number on a textbox</h3>
 <p><em><strong>Description:</strong></em><br>
 Nextion <strong>DOES NOT SUPPORT</strong> float numbers. Instead, it uses integer math and does not have real or floating support.<br>
 The Xfloat component is used for signed 32-bit integer values.<br>
@@ -364,19 +388,26 @@ readNumber(<code>String</code>)</p>
 </ul>
 <p><em><strong>Description:</strong></em><br>
 We use it to read the value of every components’ numeric attribute from Nextion (value, bco color, pco color…etc)</p>
-<p>In case the function fails to read the new value, it will return the number <code>7777</code>.<br>
+<p>In case the function fails to read the new value, it will return the number <code>777777</code>.<br>
+The reasons of getting <code>777777</code>: (from release 1.0.2 and above)</p>
+<ul>
+<li>Waiting bytes have not come to Serial timeout</li>
+<li>Command start character is not found in Serial timeout</li>
+<li>The waiting length of the byte package has not come to Serial</li>
+<li>Bytes on Serial are not the expected<br>
 The chances of getting a wrong value is one in a million.<br>
 You can use this, fail return value, feature in your code, in case you handle sensitive value data, to confirm that you have the right value.<br>
-You can check it with an <strong><code>if()</code></strong> statement, in which you will ignore the value of <code>7777</code> and you can run the <code>readNumber()</code> again or set a safe value or use the last good known value method.</p>
+You can check it with an <strong><code>if()</code></strong> statement, in which you will ignore the value of <code>777777</code> and you can run the <code>readNumber()</code> again or set a safe value or use the last good known value method.</li>
+</ul>
 <pre class=" language-cpp"><code class="prism  language-cpp">uint32_t number <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 uint32_t lastnumber <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
 
 number <span class="token operator">=</span> myNex<span class="token punctuation">.</span><span class="token function">readNumber</span><span class="token punctuation">(</span><span class="token string">"n0.val"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// We read the value of n0 and store it to number variable</span>
     
-<span class="token keyword">if</span><span class="token punctuation">(</span>number <span class="token operator">!=</span> <span class="token number">7777</span><span class="token punctuation">)</span><span class="token punctuation">{</span>       <span class="token comment">// 7777 is the return value if the code fails to read the new value</span>
+<span class="token keyword">if</span><span class="token punctuation">(</span>number <span class="token operator">!=</span> <span class="token number">777777</span><span class="token punctuation">)</span><span class="token punctuation">{</span>       <span class="token comment">// 777777is the return value if the code fails to read the new value</span>
   lastnumber <span class="token operator">=</span> number<span class="token punctuation">;</span>
   
-<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>number <span class="token operator">==</span> <span class="token number">7777</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>number <span class="token operator">==</span> <span class="token number">777777</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
     number <span class="token operator">=</span> lastNumber<span class="token punctuation">;</span>
 <span class="token punctuation">}</span>
 </code></pre>
@@ -434,6 +465,20 @@ This variable stores the last value of <code>currentPageId</code> before <code>c
 <li>Arduino UNO</li>
 <li>WeMos D1 mini ESP8266</li>
 </ol>
+<h2 id="releases">Releases:</h2>
+<h3 id="release-1.0.2">Release 1.0.2</h3>
+<ul>
+<li>Remove the private function <code>readCommand()</code> from the main <code>EasyNextionLibrary.cpp</code> file. A new file is created named <code>readCustomCommands.cpp</code>,  in order to make easier the modifications for it when using the custom protocol.</li>
+<li>Return Error code added and to other cases of <code>readNumberFromSerial()</code>. When failing to read a number, we  return the number 777777 instead. The cases of having a 777777 return:
+<ul>
+<li>Waiting bytes have not come to Serial timeout</li>
+<li>Command start character is not found in Serial timeout</li>
+<li>The waiting length of the byte package has not come to Serial</li>
+<li>Bytes on Serial are not the expected</li>
+</ul>
+</li>
+<li>The function readNumberFromSerial() is improved, making reading values more accurate, due to hardware or Serial problems.</li>
+</ul>
 <h2 id="licence">Licence</h2>
 <p>This library is licensed under <strong>MIT X11 license</strong>.<br>
 Copyright © &lt;2020&gt;  Athanasios Seitanis</p>
