@@ -1,4 +1,7 @@
-﻿# Easy Nextion Library
+﻿
+
+
+# Easy Nextion Library
 
 ## Description
 
@@ -11,6 +14,8 @@ I have invested time and resources providing open source codes, like this one. P
 If you found this work useful and has saved you time and effort, 
 just simply paypal me at this Link: [seithagta@gmail.com](https://paypal.me/seithan?locale.x=el_GR)
 
+You can find more examples, tutorials and projects with Nextion on my website [seithan.com](https://seithan.com/) or at my YouTube channel [Thanasis Seitanis](https://www.youtube.com/channel/UCk_AjYtvzUC58ups5Lm053g)
+
 ## Installation 
 
 ### First Method
@@ -18,6 +23,8 @@ just simply paypal me at this Link: [seithagta@gmail.com](https://paypal.me/seit
 1.  Then the Library Manager will open and you will find a list of libraries that are already installed or ready for installation.
 1.  Then search for EasyNextionLibrary using the search bar.
 1.  Click on the text area and then select the latest version and install it.
+
+![enter image description here](./extras/media/EasyNextionLibrary_Arduino_Library_Manager.png)
 
 ### Second Method
 1. Download the latest release of EasyNextionLibrary.
@@ -135,6 +142,13 @@ void trigger1(){
 ***The various combinations of attribute choices provide a wide range of expected behaviors with many combinations.  
 This combined with the Nextion Instruction Set creates the opportunity for very powerful HMIs.***
 
+***NOTE***:
+As these commands are using the Serial port to read and write, it is more preferred not to run them in the loop() without delay(); or some other method of not running them with the frequency of the loop and use them only when it is needed.
+Using them in a loop, a delay in the loop can be noticed, especially when reading from the Serial. A Serial buffer overflow can also be caused.
+***Also NOTE***: (from the Nextion Editor Guide)
+> In an HMI project a page is a localized unit. When changing pages, the existing page is removed from memory and the > > requested page is then loaded into memory. As such components with a variable scope of _**local**_ are only accessible while the page they are in is currently loaded. Components within a page that have a variable scope of _**global**_ are accessible by prefixing the page name to the global component .objname.
+As an Example: A global Number component n0 on page1 is accessed by page1.n0. A local Number component n0 on page1 can be accessed by page1.n0 or n0, but there is little sense to try access a local component if the page is not loaded. Only the component attributes of a global component are kept in memory. Event code is never global in nature.
+
 ### Function trigger(); 
 **`Associated Library's Code Example:`** ***` Trigger`* **`and`** *`FourStepExample`***
 
@@ -236,9 +250,13 @@ myObject.writeNum("n0.pco", 1055);  // Set font color to blue
 myObject.writeNum("n0.format", 0);  // Set value format to decimal
 ````
 ***NOTE:** Only attributes shown in green in the Editor can be both read and changed by user code at runtime.*
-![Attribute panel](http://seithan.com/data/documents/tempAttributePane.png)
+![Attribute panel](./extras/media/AttributePan.png)
+
 
  ### Send floating-point numbers, a number that has a decimal point.
+### Or send a number on a textbox
+
+
 ***Description:***
 Nextion **DOES NOT SUPPORT** float numbers. Instead, it uses integer math and does not have real or floating support.
 The Xfloat component is used for signed 32-bit integer values.
@@ -338,10 +356,15 @@ readNumber(`String`)
 ***Description:***
 We use it to read the value of every components' numeric attribute from Nextion (value, bco color, pco color...etc)
 
-In case the function fails to read the new value, it will return the number `7777`. 
+In case the function fails to read the new value, it will return the number `777777`. 
+The reasons of getting `777777`: (from release 1.0.2 and above)
+   -  Waiting bytes have not come to Serial timeout
+   - Command start character is not found in Serial timeout
+   - The waiting length of the byte package has not come to Serial
+   - Bytes on Serial are not the expected
 The chances of getting a wrong value is one in a million.
 You can use this, fail return value, feature in your code, in case you handle sensitive value data, to confirm that you have the right value. 
-You can check it with an **`if()`** statement, in which you will ignore the value of `7777` and you can run the `readNumber()` again or set a safe value or use the last good known value method.
+You can check it with an **`if()`** statement, in which you will ignore the value of `777777` and you can run the `readNumber()` again or set a safe value or use the last good known value method.
 
 ````Cpp
 uint32_t number = 0;
@@ -349,10 +372,10 @@ uint32_t lastnumber = 0;
 
 number = myNex.readNumber("n0.val");   // We read the value of n0 and store it to number variable
     
-if(number != 7777){       // 7777 is the return value if the code fails to read the new value
+if(number != 777777){       // 777777is the return value if the code fails to read the new value
   lastnumber = number;
   
-} else if(number == 7777){
+} else if(number == 777777){
     number = lastNumber;
 }
 ````
@@ -423,6 +446,17 @@ Tested MCUs:
 3. Arduino UNO
 4. WeMos D1 mini ESP8266
 
+## Releases:
+
+### Release 1.0.2
+
+ - Remove the private function `readCommand()` from the main `EasyNextionLibrary.cpp` file. A new file is created named `readCustomCommands.cpp`,  in order to make easier the modifications for it when using the custom protocol.
+ - Return Error code added and to other cases of `readNumberFromSerial()`. When failing to read a number, we  return the number 777777 instead. The cases of having a 777777 return:
+   -  Waiting bytes have not come to Serial timeout
+   - Command start character is not found in Serial timeout
+   - The waiting length of the byte package has not come to Serial
+   - Bytes on Serial are not the expected
+ - The function readNumberFromSerial() is improved, making reading values more accurate, due to hardware or Serial problems.
 
 ## Licence 
 This library is licensed under **MIT X11 license**.
@@ -462,4 +496,6 @@ The owner of the software has the right to change the terms of this license at a
 | 13 | **0D** |-| 29 | **1D** |-| 45 | **2D** |-| 61 | **3D** |
 | 14 | **0E** |-| 30 | **1E** |-| 46 | **2E** |-| 62 | **3E** |
 | 15 | **0F** |-| 31 | **1F** |-| 47 | **2F** |-| 63 | **3F** |
+
+
 
