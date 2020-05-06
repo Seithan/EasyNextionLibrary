@@ -1,6 +1,7 @@
 /*
  * FourStepExample.ino - Simple example code
- * Copyright (c) 2020 Athanasios Seitanis < seithagta@gmail.com >. 
+ * Copyright (c) 2020 Athanasios Seitanis < seithagta@gmail.com >.
+ * https://www.seithan.com 
  * All rights reserved. EasyNextionLibrary is licensed under the MIT License
  * https://opensource.org/licenses/MIT
  */
@@ -10,6 +11,11 @@
  * If you found  this work useful and has saved you time and effort,
  * Just simply paypal me at: seithagta@gmail.com
  */
+
+ //********************************************************************************
+ //  You can find more examples, tutorials and projects with Nextion on my website
+ // https://www.seithan.com 
+ //********************************************************************************
  
 // Compatible for Arduino 
 
