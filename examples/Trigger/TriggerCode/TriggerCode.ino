@@ -1,5 +1,5 @@
 /*
- * SingleWaveform.ino - Simple example code for EasyNextionLibrary
+ * TriggerCode.ino - Simple example code for EasyNextionLibrary
  * Copyright (c) 2020 Athanasios Seitanis < seithagta@gmail.com >. 
  * https://www.seithan.com 
  * All rights reserved. EasyNextionLibrary is licensed under the MIT License
