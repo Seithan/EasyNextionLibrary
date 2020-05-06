@@ -1,9 +1,21 @@
 /*
- * TriggerCode.ino - Simple example code for EasyNextionLibrary
+ * TriggerCodeWemos.ino - Simple example code for EasyNextionLibrary
  * Copyright (c) 2020 Athanasios Seitanis < seithagta@gmail.com >. 
+ * https://www.seithan.com 
  * All rights reserved. EasyNextionLibrary is licensed under the MIT License
  * https://opensource.org/licenses/MIT
  */
+ 
+/* I have invested time and resources providing open source codes, like this one. 
+ * Please do not hesitate to support my work!
+ * If you found  this work useful and has saved you time and effort,
+ * Just simply paypal me at: seithagta@gmail.com
+ */
+ 
+ //********************************************************************************
+ //  You can find more examples, tutorials and projects with Nextion on my website
+ //  https://www.seithan.com 
+ //********************************************************************************
  
 /* This is the most important method of the library. 
  * And this is because, it gives you the ability to use the predefined functions and run your code from there. 
