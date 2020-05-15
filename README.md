@@ -451,6 +451,12 @@ Tested MCUs:
 
 ## Releases:
 
+### Release 1.0.3
+
+Two more examples were added. 
+- The first one demonstrates how to use EasyNextionLibrary with waveforms. 
+- The  second one demonstrates how to use EasyNextionLibrary with progress bars
+
 ### Release 1.0.2
 
  - Remove the private function `readCommand()` from the main `EasyNextionLibrary.cpp` file. A new file is created named `readCustomCommands.cpp`,  in order to make easier the modifications for it when using the custom protocol.
