@@ -14,7 +14,7 @@ I have invested time and resources providing open source codes, like this one. P
 If you found this work useful and has saved you time and effort, 
 just simply paypal me at this Link: [seithagta@gmail.com](https://paypal.me/seithan?locale.x=el_GR)
 
-You can find more examples, tutorials and projects with Nextion on my website [seithan.com](https://www.seithan.com/) or at my YouTube channel [Thanasis Seitanis](https://www.youtube.com/channel/UCk_AjYtvzUC58ups5Lm053g)
+You can find more examples, tutorials and projects with Nextion on my website [seithan.com](https://seithan.com/) or at my YouTube channel [Thanasis Seitanis](https://www.youtube.com/channel/UCk_AjYtvzUC58ups5Lm053g)
 
 ## Installation 
 
@@ -48,7 +48,7 @@ All `.HMIs` are set for 2.8" Basic screens, so as to be easier to modify it for 
 * lastCurrentPageId (Data Type: **Integer**)
 
 ### Details, examples and explanation on custom protocol, can be found on my website at: 
-#### [https://www.seithan.com/EasyNextionLibrary/CustomProtocol/](https://www.seithan.com/EasyNextionLibrary/CustomProtocol/)
+#### [https://seithan.com/Easy-Nextion-Library/Custom-Protocol/](https://seithan.com/Easy-Nextion-Library/Custom-Protocol/)
 
 ## 4-step Example
 1.  **Include** ***EasyNextionLibrary*** and create an object of `EasyNex` class
