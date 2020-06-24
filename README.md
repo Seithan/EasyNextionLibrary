@@ -492,6 +492,9 @@ Tested MCUs:
 
 ## Releases:
 
+### Release 1.0.4
+- Added the readStr() function for reading a String from Nextion
+
 ### Release 1.0.3
 
 Two more examples were added. 
