@@ -76,6 +76,7 @@ class EasyNex {
     void writeStr(String, String txt = "cmd");
 		void NextionListen(void);
     uint32_t readNumber(String);
+    String readStr(String);
     
       //--------------------------------------- 
      // public variables
@@ -105,18 +106,18 @@ class EasyNex {
     void callTriggerFunction(void);
     
       //----------------------------------------------
-     // for void writeNum (write to numeric attribute)
+     // for function writeNum() (write to numeric attribute)
     //------------------------------------------------
 		String _component;
     uint32_t _numVal;
     
       //--------------------------------------------
-     // for void writeStr (write to text attribute)
+     // for function writeStr() (write to text attribute)
     //----------------------------------------------
     String _strVal;
     
 		  //---------------------------------------
-		 // for void readNumber
+		 // for function readNumber()
     //-----------------------------------------
 		String _comp;
 		uint32_t _readValue;
@@ -125,7 +126,7 @@ class EasyNex {
     unsigned long _readNumberTimeout = 400;
     
       //---------------------------------------
-		 // for void readNumberFromSerial
+		 // for function readNumberFromSerial()
     //-----------------------------------------    
 		uint8_t _numericBuffer[4];
 		uint32_t _numberValue;
@@ -135,6 +136,12 @@ class EasyNex {
     boolean _cmdFound;
     uint8_t _cmd1;
     uint8_t _tempRead;
+    
+      //---------------------------------------
+		 // for function readStr()
+    //-----------------------------------------  
+    String _readString;
+    
 };
 
 #endif
