@@ -1,5 +1,4 @@
-﻿
-
+  
 
 # Easy Nextion Library
 
@@ -12,7 +11,7 @@ The handling of Nextion should be as simple and at the same time as professional
 
 I have invested time and resources providing open source codes, like this one. Please do not hesitate to support my work!
 If you found this work useful and has saved you time and effort, 
-just simply paypal me at this Link: [seithagta@gmail.com](https://paypal.me/seithan?locale.x=el_GR)
+just simply paypal me at this Link: [seithagta@gmail.com](https://paypal.me/seithan)
 
 You can find more examples, tutorials and projects with Nextion on my website [seithan.com](https://seithan.com/) or at my YouTube channel [Thanasis Seitanis](https://www.youtube.com/channel/UCk_AjYtvzUC58ups5Lm053g)
 
@@ -42,6 +41,7 @@ All `.HMIs` are set for 2.8" Basic screens, so as to be easier to modify it for 
 - `writeStr();`
 - `readNumber();`
 - `trigger();`
+ - `readStr();` Added with version 1.0.4
  
 ***And the public variables:***
 * currentPageId (Data Type: **Integer**)
@@ -390,6 +390,47 @@ unsigned int y = myObject.readNumber("b0.bco"); // Strore to y the color number 
 ````
 ***NOTE:** Only attributes shown in **green** in the Editor can be both read and changed by user code at runtime.*
 
+### Function readStr();
+
+**`Associated Library's Code Example:` *`ReadString`***
+
+***Parameters:***
+readStr(`String`)
+* **String**: objectname.textAttribute (example: "t0.txt", "va0.txt", "b0.txt"...etc)
+
+***Description:***
+We use it to read the value of every components' text attribute from Nextion (txt etc...)
+
+In case the function fails to read the new value, it will return the text `ERROR`. 
+The reasons of getting `ERROR`: (from release 1.0.4 and above)
+   -  Serial buffer occupied timeout
+   -  Waiting bytes have not come to Serial timeout
+   - Command start character is not found in Serial timeout
+   - The end of the command has not come to Serial
+   
+The chances of getting a wrong value is one in a million.
+You can use this, fail return value, feature in your code, in case you handle sensitive value data, to confirm that you have the right value. 
+You can check it with an **`if()`** statement, in which you will ignore the value of `ERROR` and you can run the `readStr()` again or set a safe value or use the last good known value method.
+
+````Cpp
+String text = "";
+String lastText = "";
+
+text = myNex.readStr("t0.txt");   // We read the value of t0 and store it
+    
+if(text.equals("ERROR") == false){       // ERROR is the return value if the code fails to read the new value
+  lastText = text;
+  
+} else if(text.equals("ERROR") == true){
+    text = lastText;
+}
+````
+
+***Syntax:***
+````Cpp
+String x = myObject.readStr("t0.txt"); // Store to x the value of text box t0
+````
+
 ##  Library Public Variables
 
 **`Associated Library's Code Example:` *` ChangePagesAndSentFloatValues`***
@@ -505,6 +546,3 @@ The owner of the software has the right to change the terms of this license at a
 | 13 | **0D** |-| 29 | **1D** |-| 45 | **2D** |-| 61 | **3D** |
 | 14 | **0E** |-| 30 | **1E** |-| 46 | **2E** |-| 62 | **3E** |
 | 15 | **0F** |-| 31 | **1F** |-| 47 | **2F** |-| 63 | **3F** |
-
-
-
