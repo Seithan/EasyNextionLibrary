@@ -4,13 +4,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome file</title>
+  <title>Protocol.html</title>
   <link rel="stylesheet" href="https://stackedit.io/style.css" />
 </head>
 
 <body class="stackedit">
-  <div class="stackedit__html"><p></p>
-<h1 id="easy-nextion-library">Easy Nextion Library</h1>
+  <div class="stackedit__html"><h1 id="easy-nextion-library">Easy Nextion Library</h1>
 <h2 id="description">Description</h2>
 <p>A simple library that uses only four functions. You can easily benefit from Nextion’s wide range of features and advantages in just a few easy steps.<br>
 The library uses a custom protocol that can prove to be a <strong>powerful tool</strong> for advanced users as it can be <strong>easily modified</strong> to meet one’s needs.<br>
@@ -18,8 +17,8 @@ This is an attempt to give a very simple method to use Nextion monitors for begi
 The handling of Nextion should be as simple and at the same time as professional as a display of this kind deserves.</p>
 <p>I have invested time and resources providing open source codes, like this one. Please do not hesitate to support my work!<br>
 If you found this work useful and has saved you time and effort,<br>
-just simply paypal me at this Link: <a href="https://paypal.me/seithan?locale.x=el_GR">seithagta@gmail.com</a></p>
-<p>You can find more examples, tutorials and projects with Nextion on my website <a href="https://www.seithan.com/">seithan.com</a> or at my YouTube channel <a href="https://www.youtube.com/channel/UCk_AjYtvzUC58ups5Lm053g">Thanasis Seitanis</a></p>
+just simply paypal me at this Link: <a href="https://paypal.me/seithan">seithagta@gmail.com</a></p>
+<p>You can find more examples, tutorials and projects with Nextion on my website <a href="https://seithan.com/">seithan.com</a> or at my YouTube channel <a href="https://www.youtube.com/channel/UCk_AjYtvzUC58ups5Lm053g">Thanasis Seitanis</a></p>
 <h2 id="installation">Installation</h2>
 <h3 id="first-method">First Method</h3>
 <ol>
@@ -48,7 +47,9 @@ All <code>.HMIs</code> are set for 2.8" Basic screens, so as to be easier to mod
 <li><code>writeNum();</code></li>
 <li><code>writeStr();</code></li>
 <li><code>readNumber();</code></li>
-<li><code>trigger();</code></li>
+<li><code>trigger();</code><br>
+Added with version 1.0.4</li>
+<li><code>readStr();</code></li>
 </ul>
 <p><em><strong>And the public variables:</strong></em></p>
 <ul>
@@ -56,7 +57,7 @@ All <code>.HMIs</code> are set for 2.8" Basic screens, so as to be easier to mod
 <li>lastCurrentPageId (Data Type: <strong>Integer</strong>)</li>
 </ul>
 <h3 id="details-examples-and-explanation-on-custom-protocol-can-be-found-on-my-website-at">Details, examples and explanation on custom protocol, can be found on my website at:</h3>
-<h4 id="httpswww.seithan.comeasynextionlibrarycustomprotocol"><a href="https://www.seithan.com/EasyNextionLibrary/CustomProtocol/">https://www.seithan.com/EasyNextionLibrary/CustomProtocol/</a></h4>
+<h4 id="httpsseithan.comeasy-nextion-librarycustom-protocol"><a href="https://seithan.com/Easy-Nextion-Library/Custom-Protocol/">https://seithan.com/Easy-Nextion-Library/Custom-Protocol/</a></h4>
 <h2 id="step-example">4-step Example</h2>
 <ol>
 <li><strong>Include</strong> <em><strong>EasyNextionLibrary</strong></em> and create an object of <code>EasyNex</code> class</li>
@@ -419,6 +420,41 @@ number <span class="token operator">=</span> myNex<span class="token punctuation
 <span class="token keyword">unsigned</span> <span class="token keyword">int</span> y <span class="token operator">=</span> myObject<span class="token punctuation">.</span><span class="token function">readNumber</span><span class="token punctuation">(</span><span class="token string">"b0.bco"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Strore to y the color number of the background of button b0</span>
 </code></pre>
 <p><em><strong>NOTE:</strong> Only attributes shown in <strong>green</strong> in the Editor can be both read and changed by user code at runtime.</em></p>
+<h3 id="function-readstr">Function readStr();</h3>
+<p><strong><code>Associated Library's Code Example:</code> <em><code>ReadString</code></em></strong></p>
+<p><em><strong>Parameters:</strong></em><br>
+readStr(<code>String</code>)</p>
+<ul>
+<li><strong>String</strong>: objectname.textAttribute (example: “t0.txt”, “va0.txt”, “b0.txt”…etc)</li>
+</ul>
+<p><em><strong>Description:</strong></em><br>
+We use it to read the value of every components’ text attribute from Nextion (txt etc…)</p>
+<p>In case the function fails to read the new value, it will return the text <code>ERROR</code>.<br>
+The reasons of getting <code>ERROR</code>: (from release 1.0.4 and above)</p>
+<ul>
+<li>Serial buffer occupied timeout</li>
+<li>Waiting bytes have not come to Serial timeout</li>
+<li>Command start character is not found in Serial timeout</li>
+<li>The end of the command has not come to Serial</li>
+</ul>
+<p>The chances of getting a wrong value is one in a million.<br>
+You can use this, fail return value, feature in your code, in case you handle sensitive value data, to confirm that you have the right value.<br>
+You can check it with an <strong><code>if()</code></strong> statement, in which you will ignore the value of <code>ERROR</code> and you can run the <code>readStr()</code> again or set a safe value or use the last good known value method.</p>
+<pre class=" language-cpp"><code class="prism  language-cpp">String text <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+String lastText <span class="token operator">=</span> <span class="token string">""</span><span class="token punctuation">;</span>
+
+text <span class="token operator">=</span> myNex<span class="token punctuation">.</span><span class="token function">readStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>   <span class="token comment">// We read the value of t0 and store it</span>
+    
+<span class="token keyword">if</span><span class="token punctuation">(</span>text<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"ERROR"</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">{</span>       <span class="token comment">// ERROR is the return value if the code fails to read the new value</span>
+  lastText <span class="token operator">=</span> text<span class="token punctuation">;</span>
+  
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>text<span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span><span class="token string">"ERROR"</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    text <span class="token operator">=</span> lastText<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><em><strong>Syntax:</strong></em></p>
+<pre class=" language-cpp"><code class="prism  language-cpp">String x <span class="token operator">=</span> myObject<span class="token punctuation">.</span><span class="token function">readStr</span><span class="token punctuation">(</span><span class="token string">"t0.txt"</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Store to x the value of text box t0</span>
+</code></pre>
 <h2 id="library-public-variables">Library Public Variables</h2>
 <p><strong><code>Associated Library's Code Example:</code> <em><code>ChangePagesAndSentFloatValues</code></em></strong></p>
 <p><em><strong>1st Variable</strong></em>:<br>
