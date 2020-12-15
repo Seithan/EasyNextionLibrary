@@ -26,7 +26,7 @@
                                  // or from Arduino's IDE Library Manager
 
 EasyNex myNex(Serial); // Create an object of EasyNex class with the name < myNex >
-                       // Set as parameter the Serial you are going to use
+                       // Set as parameter the Hardware Serial you are going to use
 
 const int REFRESH_TIME = 1000;           // time to refresh the Nextion data every 1000 ms
 unsigned long refresh_timer = millis();  // timer for refreshing Nextion's page
