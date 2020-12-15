@@ -26,8 +26,8 @@ readNumberFromSerial	KEYWORD2
 # Specifies Structures (KEYWORD3)
 #############################################
 
-easyNexReadCustomCommand	KEYWORD3	trigger1	RESERVED_WORD
-trigger0	KEYWORD3	trigger1	RESERVED_WORD
+
+trigger0	KEYWORD3	trigger0	RESERVED_WORD
 trigger1	KEYWORD3	trigger1	RESERVED_WORD
 trigger2	KEYWORD3	trigger2	RESERVED_WORD
 trigger3	KEYWORD3	trigger3	RESERVED_WORD
@@ -78,7 +78,7 @@ trigger47	KEYWORD3	trigger47	RESERVED_WORD
 trigger48	KEYWORD3	trigger48	RESERVED_WORD
 trigger49	KEYWORD3	trigger49	RESERVED_WORD
 trigger50	KEYWORD3	trigger50	RESERVED_WORD
-
+easyNexReadCustomCommand	KEYWORD3	easyNexReadCustomCommand	RESERVED_WORD
 
 
 #############################################
