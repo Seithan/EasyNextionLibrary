@@ -21,16 +21,16 @@
 
 /* This is the most important method of the library. 
  * And this is because, it gives you the ability to use the predefined functions and run your code from there. 
- * These predefined functions are named trigger1(), trigger2(), trigger3()... up to trigger50(). 
+ * These predefined functions are named trigger0(), trigger1(), trigger2()... up to trigger50(). 
  * You can use them as a simple void out of the loop, in which you will have written a block of code to run every time it is called.
  * You can call those trigger() functions and run the code they contain anytime by simply writing in a Nextion Event the command:
  * `printh 23 02 54 XX` , where `XX` the id for the triggerXX() in HEX.
- * Example: printh 23 02 54 01 to call trigger1() ... printh 23 02 54 0A to call trigger10() and so on...
+ * Example: printh 23 02 54 00 to call trigger0() ... printh 23 02 54 0A to call trigger10() and so on...
  */
 
 /*
   Declare the void by simply writing:
-  void trigger1(){
+  void trigger0(){
   [ put your code here !!!!]
   }
 */
@@ -53,8 +53,8 @@ void loop(){
                          // from Nextion touch panel. Actually, you should place it in your loop function.
 }
 
-void trigger1(){
-  // To call this void send from Nextion's component's Event:  printh 23 02 54 01
+void trigger0(){
+  // To call this void send from Nextion's component's Event:  printh 23 02 54 00
   // In this exmaple, we send this command from the Release Event of b0 button (see the HMI of this example)
   // You can send  the same `printh` command, to call the same function, from more than one component, depending on your needs
 
@@ -71,8 +71,8 @@ void trigger1(){
   }
 }
 
-void trigger2(){
-  // To call this void send from Nextion's component's Event:  printh 23 02 54 02
+void trigger1(){
+  // To call this void send from Nextion's component's Event:  printh 23 02 54 01
   // In this exmaple, we send this command from the Release Event of b1 button (see the HMI of this example)
   // You can send  the same `printh` command, to call the same function, from more than one component, depending on your needs
   
