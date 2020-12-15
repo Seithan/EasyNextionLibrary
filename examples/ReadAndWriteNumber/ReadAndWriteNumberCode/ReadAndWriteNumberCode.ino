@@ -22,7 +22,7 @@
 #include "EasyNextionLibrary.h"  // Include EasyNextionLibrary 
 
 EasyNex myNex(Serial); // Create an object of EasyNex class with the name < myNex >
-                       // Set as parameter the Serial you are going to use
+                       // Set as parameter the Hardware Serial you are going to use
 uint32_t number = 0;
 uint32_t lastnumber = 0;
 
