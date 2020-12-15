@@ -15,8 +15,6 @@
 // This was a part of the NextionListen(), but we seperated it, 
 // in order to make easier the modifications for it, especially in the case of a custom protocol
 // Now, we only have two command groups: the "Trigger" and "Page"
-// And two extra, as an example, can be defined by the user, to write their code there
-// You can add as many cases as you want :)
 
 void EasyNex::readCommand(){
 
@@ -41,7 +39,7 @@ void EasyNex::readCommand(){
                  * We have to write in a Touch Event on Nextion the following: < printh 23 02 54 xx >
                  * (where xx is the trigger id in HEX, 01 for 1, 02 for 2, ... 0A for 10 etc).
                  * With the switch(){case}, we call a predefined void with prefixed names
-                 * as we have declare them on trigger.cpp file. Starting from trigger1()......up to trigger50()
+                 * as we have declare them on trigger.cpp file. Starting from trigger0()......up to trigger50()
                  * The maximum number of predefined void is 255
                  * We declare the trigger() at this file: trigger.cpp
                  * 
@@ -49,7 +47,7 @@ void EasyNex::readCommand(){
                  * in order to write any kind of code and run it, by sending the < printh > command needed,
                  * from a Touch event on Nextion, such as pressing a button. Example:
                  */
-                /**                   void trigger1(){
+                /**                   void trigger0(){
                                         digitalWrite(13, HIGH); // sets the digital pin 13 on
                                         delay(1000);            // waits for a second
                                         digitalWrite(13, LOW);  // sets the digital pin 13 off
@@ -65,17 +63,70 @@ void EasyNex::readCommand(){
                              // 50 predefined cases for the triggers. 
       break;
     
-
-    case 'X': // or < case 0x58 > If 'X' matches, we have the command group "X"
-              
-              // for future use by the user
-      
-      break;
-      
-    case 'Y': // or < case 0x59 > If 'Y' matches, we have the command group 'Y'
-      
-              // for future use by the user
-      
-      break;
+    default:
+    cmdGroup = _cmd1;
+    cmdLength = _len;
+    easyNexReadCustomCommand();
+                    
+     break;
+              /* easyNexReadCustomCommand() has a weak attribute and will be created only when user
+               * declare this function on the main code
+               * More for custom protocol and commands https://seithan.com/Easy-Nextion-Library/Custom-Protocol/
+               * The motivate for move this function out of the library's files comes from Ricardo Reis
+               * thanks to his issue https://github.com/Seithan/EasyNextionLibrary/issues/15
+               *
+               * our commands will have this format: <#> <len> <cmd> <id> <id2>
+               *  <#> start marker, declares that a command is followed
+               *  <len> declares the number of bytes that will follow
+               *  <cmd> declares the task of the command or command group
+               *  <id> declares the properties of the command
+               *  <id2> a second property of the command
+               * To get here means that we have read a command successfully ( we have all the bytes declared with len in the Serial buffer)
+               * with the above cases we check if we have a match with the predefined cmd of <P> and <T>
+               * if there is no match we continue with the easyNexReadCustomCommand() and ONLY if we have declare the function in main code
+               * from here we must handle the assign from the easyNexReadCustomCommand() in the user code where we can go on with a switch case
+               * for the cmd that we have stored on the cmdGroup global variable, we can call it with myObject.cmdGroup 
+               */
   }
 }
+
+
+/*
+ abstract from main code
+
+void easyNexReadCustomCommand(){
+
+  int arrayPlace; // temp variable
+  int value;      // temp variable
+  
+  switch(myNex.cmdGroup){
+    
+    case 'L': // Or <case 0x4C:>  If 'L' matches
+    // we are going to write values in specific places in the dataL[] table
+    // read the next byte that determines the position on the table
+    arrayPlace = myNex.readByte();
+    
+    // read the next byte that keeps the value for the position
+    value = myNex.readByte();
+    
+    // update the array with the new values
+    dataL[arrayPlace] = value;  
+    
+    break; 
+
+    case 'S': // Or <case 0x53:>  If 'S' matches 
+    
+    // we are going to write values in specific places in the dataS[] table
+    // from Nextion printh 23 03 53 00 00
+    // read the next byte that determines the position on the table
+    arrayPlace = myNex.readByte();
+    
+    // read the next byte that keeps the value for the position
+    value = myNex.readByte();
+    
+    // update the array with the new values
+    dataS[arrayPlace] = value;  
+    
+    break;
+
+*/

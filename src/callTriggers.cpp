@@ -19,10 +19,15 @@
 
 void EasyNex::callTriggerFunction(){
   
-  _tempRead = _serial->read();  // We read the next byte, which, according to our protocol, is the < Trigger ID >
+ uint8_t _tempRead = _serial->read();  // We read the next byte, which, according to our protocol, is the < Trigger ID >
                                 // From Nextion we send: < printh 23 02 54 xx >
                                 // (where xx is the trigger id in HEX, 01 for 1, 02 for 2, ... 0A for 10 etc)
   switch(_tempRead){
+    
+    case 0x00:
+      trigger0();
+      break;    
+    
     case 0x01:
       trigger1();
       break;

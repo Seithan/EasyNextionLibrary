@@ -19,13 +19,22 @@
    
  * With the same way, you can add as many extern void as you like
  * NOTE: WE can have UP TO 255 extern void
+ *
+ * When a function has a weak attribute it will be created only when user
+ * declare this function on the main code
  */
 
 
 #ifndef trigger_h
 #define trigger_h
 
-// declare the functions 
+// weak attribute funcion for read the custom command protocol
+
+extern void easyNexReadCustomCommand();
+extern void easyNexReadCustomCommand() __attribute__((weak));
+
+// declare the functions for triggers
+extern void trigger0();
 extern void trigger1(); 
 extern void trigger2();
 extern void trigger3();
@@ -78,6 +87,7 @@ extern void trigger49();
 extern void trigger50();
 
 // declaration of the function as weak
+extern void trigger0() __attribute__((weak));
 extern void trigger1() __attribute__((weak));
 extern void trigger2() __attribute__((weak));
 extern void trigger3() __attribute__((weak));

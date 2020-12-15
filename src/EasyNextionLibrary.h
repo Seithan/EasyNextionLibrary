@@ -66,6 +66,14 @@ class EasyNex {
    * String = objectname.numericAttribute (example: "n0.val", "n0.pco", "n0.bco"...etc)
    * Syntax: | myObject.readNumber("n0.val"); |  or  | myObject.readNumber("b0.bco");                       |
    *         | read the value of numeric n0   |      | read the color number of the background of button b0 |
+   * -- readStr(String): We use it to read the value of every components' text attribute from Nextion (txt etc...)
+   * String = objectname.textAttribute (example: "t0.txt", "va0.txt", "b0.txt"...etc)
+   * Syntax: String x = myObject.readStr("t0.txt"); // Store to x the value of text box t0
+   *
+   * -- readByte() : We read the next byte from the Serial
+   * Main purpose and usage is for the custom commands read
+   * Where we need to read bytes from Serial inside user code
+   * Syntax: | myObject.readByte(); |
    */
    
 
@@ -77,6 +85,7 @@ class EasyNex {
 		void NextionListen(void);
     uint32_t readNumber(String);
     String readStr(String);
+    int readByte();
     
       //--------------------------------------- 
      // public variables
@@ -91,9 +100,15 @@ class EasyNex {
      * lastCurrentPageId: stores the value of the previous page shown on Nextion
      * No need to write anything in Preinitialize Event on Nextion
      * You can call it by writing in the .ino file code:  variable = myObject.lastCurrentPageId;
+     *
+     * cmdGroup: ONLY for custom commands stores the command group ID 
+     *
+     * cmdLength: ONLY for custom commands stores the length of the command
      */ 
     int currentPageId;  
     int lastCurrentPageId;
+    byte cmdGroup;
+    byte cmdLength;
     
     
     //--------------------------------------- 
@@ -101,14 +116,13 @@ class EasyNex {
   //-----------------------------------------
 	private:
     HardwareSerial* _serial;
-    uint32_t readNumberFromSerial(void);
 		void readCommand(void);
     void callTriggerFunction(void);
     
       //----------------------------------------------
      // for function writeNum() (write to numeric attribute)
     //------------------------------------------------
-		String _component;
+		String _component;     // Also used in writeStr()
     uint32_t _numVal;
     
       //--------------------------------------------
@@ -120,22 +134,17 @@ class EasyNex {
 		 // for function readNumber()
     //-----------------------------------------
 		String _comp;
-		uint32_t _readValue;
-		bool _waitingForNumber;
-    uint8_t _countRetry;
-    unsigned long _readNumberTimeout = 400;
-    
-      //---------------------------------------
-		 // for function readNumberFromSerial()
-    //-----------------------------------------    
 		uint8_t _numericBuffer[4];
 		uint32_t _numberValue;
+    
+      //---------------------------------------
+		 // for General functions  
+    //-----------------------------------------
     char _start_char;
-    uint8_t _len;
     unsigned long _tmr1;
     boolean _cmdFound;
     uint8_t _cmd1;
-    uint8_t _tempRead;
+    uint8_t _len;
     
       //---------------------------------------
 		 // for function readStr()
