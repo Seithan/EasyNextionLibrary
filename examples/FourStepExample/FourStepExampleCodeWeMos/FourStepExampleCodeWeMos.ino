@@ -19,18 +19,18 @@
  
 // Compatible for WeMos D1 mini
  
-/* trigger() is the most important method of the library. 
+/* This is the most important method of the library. 
  * And this is because, it gives you the ability to use the predefined functions and run your code from there. 
- * These predefined functions are named trigger1(), trigger2(), trigger3()... up to trigger50(). 
+ * These predefined functions are named trigger0(), trigger1(), trigger2()... up to trigger50(). 
  * You can use them as a simple void out of the loop, in which you will have written a block of code to run every time it is called.
  * You can call those trigger() functions and run the code they contain anytime by simply writing in a Nextion Event the command:
  * `printh 23 02 54 XX` , where `XX` the id for the triggerXX() in HEX.
- * Example: printh 23 02 54 01 to call trigger1() ... printh 23 02 54 0A to call trigger10() and so on...
+ * Example: printh 23 02 54 00 to call trigger0() ... printh 23 02 54 0A to call trigger10() and so on...
  */
 
 /*
   Declare the void by simply writing:
-  void trigger1(){
+  void trigger0(){
   [ put your code here !!!!]
   }
 */
@@ -52,11 +52,11 @@ void loop(){
                          // from Nextion touch panel. Actually, you should place it in your loop function.
 }
 
-void trigger1(){
+void trigger0(){
   /* Create a button on Nextion
    * Write in the Touch Release Event of the button
-   * this command:    printh 23 02 54 01
-   * Every time the button is pressed, the trigger1() function will run
+   * this command:    printh 23 02 54 00
+   * Every time the button is pressed, the trigger0() function will run
    * and the code inside will be executed once
    */
   digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN)); // If LED_BUILTIN is ON, turn it OFF, or the opposite
