@@ -72,7 +72,7 @@ void EasyNex::readCommand(){
               /* easyNexReadCustomCommand() has a weak attribute and will be created only when user
                * declare this function on the main code
                * More for custom protocol and commands https://seithan.com/Easy-Nextion-Library/Custom-Protocol/
-               * The motivate for move this function out of the library's files comes from Ricardo Reis
+               * The motivate to move this function out of the library's files comes from Ricardo Reis
                * thanks to his issue https://github.com/Seithan/EasyNextionLibrary/issues/15
                *
                * our commands will have this format: <#> <len> <cmd> <id> <id2>
