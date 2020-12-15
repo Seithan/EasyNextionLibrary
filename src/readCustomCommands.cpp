@@ -69,24 +69,31 @@ void EasyNex::readCommand(){
     easyNexReadCustomCommand();
                     
      break;
-              /* easyNexReadCustomCommand() has a weak attribute and will be created only when user
-               * declare this function on the main code
-               * More for custom protocol and commands https://seithan.com/Easy-Nextion-Library/Custom-Protocol/
-               * The motivate to move this function out of the library's files comes from Ricardo Reis
-               * thanks to his issue https://github.com/Seithan/EasyNextionLibrary/issues/15
-               *
-               * our commands will have this format: <#> <len> <cmd> <id> <id2>
-               *  <#> start marker, declares that a command is followed
-               *  <len> declares the number of bytes that will follow
-               *  <cmd> declares the task of the command or command group
-               *  <id> declares the properties of the command
-               *  <id2> a second property of the command
-               * To get here means that we have read a command successfully ( we have all the bytes declared with len in the Serial buffer)
-               * with the above cases we check if we have a match with the predefined cmd of <P> and <T>
-               * if there is no match we continue with the easyNexReadCustomCommand() and ONLY if we have declare the function in main code
-               * from here we must handle the assign from the easyNexReadCustomCommand() in the user code where we can go on with a switch case
-               * for the cmd that we have stored on the cmdGroup global variable, we can call it with myObject.cmdGroup 
-               */
+               
+            /*   More for custom protocol and commands https://seithan.com/Easy-Nextion-Library/Custom-Protocol/
+               
+      easyNexReadCustomCommand() has a weak attribute and will be created only when user
+      declare this function on the main code
+      More for custom protocol and commands https://seithan.com/Easy-Nextion-Library/Custom-Protocol/
+      our commands will have this format: <#> <len> <cmd> <id> <id2>
+      and we must send them from Nextion as HEX with the printh command
+      like: printh 23 03 4C 01 01
+
+      <#> start marker, declares that a command is followed
+      <len> declares the number of bytes that will follow
+      <cmd> declares the task of the command or command group
+      <id> declares the properties of the command
+      <id2> a second property of the command
+      When we send a custom command with the above format the function NextionListen() will capture the start marker and the <len> (first 2 bytes)
+      and it will wait until all the bytes of the command, as we have declared with the <len> byte, arrives to Serial buffer and inside the timeout limits.
+      After that the function will read the next byte, which is the command group and the function readCommand() takes over and trough a switch command try
+      to match the <_cmd> variable that holds the command group value with the statements of the cases.
+      If we do NOT have a match with the predefined <cmd> of P for page and T for triggers it will continue to the default code
+      where we store the <_cmd> and <_len> to the public variables <cmdGroup> and <cmdlenght> as we are going to need access to them from the main code in next step.
+      Next we call the the easyNexReadCustomCommand() with the precondition and ONLY if we have declare the function in main code.
+      From here we can handle the assign of <cmdGroup> and IDs from the easyNexReadCustomCommand() in the user code where we can go on with a switch case
+      for the <cmdGroup>, the one that we have stored the <_cmd> for public use and we can call it with myObject.cmdGroup.
+                     */
   }
 }
 
@@ -128,5 +135,7 @@ void easyNexReadCustomCommand(){
     dataS[arrayPlace] = value;  
     
     break;
-
+  }  
+}
 */
+
