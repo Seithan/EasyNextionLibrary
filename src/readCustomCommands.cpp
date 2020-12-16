@@ -64,11 +64,11 @@ void EasyNex::readCommand(){
       break;
     
     default:
-    cmdGroup = _cmd1;
-    cmdLength = _len;
-    easyNexReadCustomCommand();
+      cmdGroup = _cmd1;  // stored in the public variable cmdGroup for later use in the main code
+      cmdLength = _len;  // stored in the public variable cmdLength for later use in the main code
+      easyNexReadCustomCommand();
                     
-     break;
+      break;
                
             /*   More for custom protocol and commands https://seithan.com/Easy-Nextion-Library/Custom-Protocol/
                
@@ -84,15 +84,20 @@ void EasyNex::readCommand(){
       <cmd> declares the task of the command or command group
       <id> declares the properties of the command
       <id2> a second property of the command
-      When we send a custom command with the above format the function NextionListen() will capture the start marker and the <len> (first 2 bytes)
-      and it will wait until all the bytes of the command, as we have declared with the <len> byte, arrives to Serial buffer and inside the timeout limits.
-      After that the function will read the next byte, which is the command group and the function readCommand() takes over and trough a switch command try
-      to match the <_cmd> variable that holds the command group value with the statements of the cases.
-      If we do NOT have a match with the predefined <cmd> of P for page and T for triggers it will continue to the default code
-      where we store the <_cmd> and <_len> to the public variables <cmdGroup> and <cmdlenght> as we are going to need access to them from the main code in next step.
-      Next we call the the easyNexReadCustomCommand() with the precondition and ONLY if we have declare the function in main code.
-      From here we can handle the assign of <cmdGroup> and IDs from the easyNexReadCustomCommand() in the user code where we can go on with a switch case
-      for the <cmdGroup>, the one that we have stored the <_cmd> for public use and we can call it with myObject.cmdGroup.
+      
+      When we send a custom command with the above format, the function NextionListen() will capture the start marker # and the len (first 2 bytes)
+      and it will wait until all the bytes of the command, as we have declared with the len byte, arrive to the Serial buffer and inside the timeout limits.
+      
+      After that, the function will read the next byte, which is the command group and the function readCommand() takes over and through a switch command
+      tries to match the _cmd variable that holds the command group value with the statements of the cases.
+      
+      If we do NOT have a match with the predefined, cmd of P for page and T for triggers, it will continue to the default where we store the _cmd and _len to the public variables
+      cmdGroup and cmdLenght as we are going to need access to them from the main code in the next step.
+      
+      Next we call the the easyNexReadCustomCommand() with the precondition and ONLY if we have declared the function in the main code.
+      
+      From this point we can handle the assign of cmdGroup and IDs from the easyNexReadCustomCommand() in the user code, where we can go on with a switch case
+      for the cmdGroup, the one that we have stored the _cmd for public use and we can call it with myObject.cmdGroup. This is why we made cmdGroup a public variable.
                      */
   }
 }
