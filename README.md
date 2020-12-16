@@ -610,7 +610,7 @@ Tested MCUs:
 ### Release 1.0.5
 - Updated `readNumber()` function for faster response and more accurate reading.
 - Added the `readByte()` function for reading  Serial buffer from user code
-- Added `easyNexReadCustomCommand()` function with a weak attribute and will be created only when user declares this function in the main code. The motivation to this function out of the library's files, comes from Ricardo Reis thanks to his issue https://github.com/Seithan/EasyNextionLibrary/issues/15
+- Added `easyNexReadCustomCommand()` function with a weak attribute and will be created only when user declares this function in the main code. The motivation to move this function out of the library's files, comes from Ricardo Reis thanks to his issue https://github.com/Seithan/EasyNextionLibrary/issues/15
 - Added public variables `cmdGroup` and `cmdLength` **ONLY** for read custom commands, stores the command group ID and the length of the command
 
 ### Release 1.0.4
