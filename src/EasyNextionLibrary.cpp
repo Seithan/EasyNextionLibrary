@@ -261,7 +261,7 @@ uint32_t EasyNex::readNumber(String component){
     }
   }
   
-  if(_endOfCommandFound = true){
+  if(_endOfCommandFound == true){
     // We can continue with the little endian conversion
     _numberValue = _numericBuffer[3];
     _numberValue <<= 8;
