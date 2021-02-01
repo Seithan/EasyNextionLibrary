@@ -607,6 +607,13 @@ Tested MCUs:
 
 ## Releases:
 
+### Release 1.0.6
+- Corrected line 264 of EasyNextionLibrary.cpp, where the "=" should be "==".
+````Cpp
+if(_endOfCommandFound == true)
+````
+Thank you Denis, Gixy31
+
 ### Release 1.0.5
 - Updated `readNumber()` function for faster response and more accurate reading.
 - Added the `readByte()` function for reading  Serial buffer from user code
