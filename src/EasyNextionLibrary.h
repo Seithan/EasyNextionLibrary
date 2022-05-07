@@ -142,7 +142,7 @@ class EasyNex {
     //-----------------------------------------
     char _start_char;
     unsigned long _tmr1;
-    boolean _cmdFound;
+    bool _cmdFound;
     uint8_t _cmd1;
     uint8_t _len;
     
